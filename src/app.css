@@ -1,0 +1,239 @@
+:root {
+  --bg: #121212;
+  --bg-alt: #1e1e1e;
+  --fg: #e0e0e0;
+  --accent: #3b82f6;
+  --danger: #ef4444;
+  --border: #2a2a2a;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, sans-serif;
+}
+
+a, button, input, select {
+  color: inherit;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+input, select {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+h1, h2, h3 {
+  color: var(--fg);
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Стили для таблицы приложений */
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: var(--bg-alt);
+}
+
+.app-table th, .app-table td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  text-align: left;
+  color: var(--fg);
+}
+
+.app-table th {
+  background-color: var(--bg);
+}
+
+.app-table .status-button,
+.app-table .delete-button {
+  padding: 4px 10px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--accent);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.app-table .status-button:hover,
+.app-table .delete-button:hover {
+  background-color: var(--fg);
+  color: var(--bg);
+}
+
+.app-table .delete-button {
+  background-color: var(--danger);
+}
+
+.app-table .delete-button:hover {
+  background-color: var(--danger);
+}
+
+/* Стили для дропдаунов */
+.generate-dropdown {
+  position: absolute;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 1rem;
+  z-index: 10;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 350px; /* Ограничиваем максимальную ширину */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.generate-dropdown label {
+  display: block;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.generate-dropdown input,
+.generate-dropdown textarea,
+.generate-dropdown button {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--bg-alt);
+  color: var(--fg);
+  box-sizing: border-box;
+}
+
+.generate-dropdown textarea {
+  resize: none; /* Убираем возможность изменения размера */
+}
+
+.generate-dropdown button {
+  background-color: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+.generate-dropdown button:hover {
+  background-color: var(--fg);
+}
+
+/* Адаптивность для мобильных устройств */
+
+/* Для экранов шириной до 768px (например, планшеты и мобильные устройства) */
+@media (max-width: 768px) {
+  /* Модальные окна */
+  .generate-dropdown {
+    max-width: 90%; /* Меньше максимальная ширина */
+    padding: 0.8rem; /* Уменьшаем отступы для мобильных устройств */
+  }
+
+  .generate-dropdown input,
+  .generate-dropdown textarea,
+  .generate-dropdown button {
+    font-size: 0.9rem; /* Уменьшаем шрифт для мобильных */
+  }
+
+  /* Таблица приложений */
+  .app-table th, .app-table td {
+    padding: 0.25rem; /* Меньше отступов в таблице */
+    font-size: 0.9rem; /* Уменьшаем шрифт */
+  }
+
+  .app-table .status-button,
+  .app-table .delete-button {
+    font-size: 0.8rem; /* Уменьшаем размер кнопок */
+    padding: 3px 8px; /* Меньше отступов на кнопках */
+  }
+
+  /* Выводим таблицу с горизонтальной прокруткой для маленьких экранов */
+  .app-table {
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+}
+
+/* Для экранов шириной до 480px (мобильные устройства) */
+@media (max-width: 480px) {
+  .generate-dropdown {
+    max-width: 95%; /* Очень широкие окна на мобильных устройствах */
+    padding: 0.5rem; /* Уменьшаем отступы */
+  }
+
+  .generate-dropdown input,
+  .generate-dropdown textarea,
+  .generate-dropdown button {
+    font-size: 0.8rem; /* Еще меньше шрифт на мобильных */
+  }
+
+  .app-table th, .app-table td {
+    padding: 0.5rem; /* Более удобные отступы на мобильных */
+    font-size: 0.8rem; /* Уменьшаем шрифт еще больше */
+  }
+}
+
+
+/* Стили для textarea, отображающего сгенерированные ключи */
+.generated-keys-textarea {
+  resize: none; /* Убираем возможность изменения размера */
+  background-color: var(--bg-alt); /* Фон как у основного фона */
+  color: var(--fg); /* Цвет текста */
+  font-size: 1rem; /* Размер шрифта */
+  padding: 1rem; /* Отступы внутри поля */
+  min-height: 120px; /* Минимальная высота */
+  height: auto; /* Дает возможность увеличиваться по высоте */
+  box-sizing: border-box; /* Для корректного подсчета размеров */
+  width: 30%; /* Задаем ширину 30% от доступного пространства */
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .generated-keys-textarea {
+    width: 50%; /* Ширина будет 50% на планшетах и мобильных устройствах */
+    min-height: 150px; /* Увеличиваем высоту на мобильных устройствах */
+    font-size: 0.9rem; /* Меньше шрифт */
+  }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+  .generated-keys-textarea {
+    width: 80%; /* Ширина 80% на экранах очень маленьких устройств */
+    min-height: 180px; /* Еще больше высота на маленьких экранах */
+    font-size: 0.8rem; /* Еще меньше шрифт */
+  }
+}
