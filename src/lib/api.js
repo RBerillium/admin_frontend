@@ -94,21 +94,64 @@ export async function deleteExpiredKeys() {
     method: 'GET',
     headers: HEADERS
   });
-
 }
 
 export async function banKey(key) {
-    return await fetch(`${API_BASE}/ban_key`, {
-      method: 'POST',
-      headers: HEADERS,
-      body: JSON.stringify({ key })
-    });
-  }
-  
-  export async function unbanKey(key) {
-    return await fetch(`${API_BASE}/unban_key`, {
-      method: 'POST',
-      headers: HEADERS,
-      body: JSON.stringify({ key })
-    });
-  }
+  return await fetch(`${API_BASE}/ban_key`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({ key })
+  });
+}
+
+export async function unbanKey(key) {
+  return await fetch(`${API_BASE}/unban_key`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({ key })
+  });
+}
+
+export async function uploadFile({ application_name, file }) {
+  const formData = new FormData();
+  formData.append('application_name', String(application_name));
+  formData.append('file', file);
+
+  return await fetch(`${API_BASE}/upload_file`, {
+    method: 'POST',
+    headers: {
+      'validation_key': HEADERS.validation_key // Не указываем Content-Type вручную!
+    },
+    body: formData
+  });
+}
+
+export async function getAllFiles(application_name) {
+  const url = new URL(`${API_BASE}/get_all_files`);
+  url.searchParams.append('application_name', application_name);
+
+  return await fetch(url, {
+    method: 'GET',
+    headers: HEADERS
+  }).then(res => res.json());
+}
+
+export async function deleteFile(id) {
+  const url = new URL(`${API_BASE}/delete_file`);
+  url.searchParams.append('id', id);
+
+  return await fetch(url, {
+    method: 'GET',
+    headers: HEADERS
+  });
+}
+
+export async function updateFile(formData) {
+  return await fetch(`${API_BASE}/update_file`, {
+    method: 'POST',
+    headers: {
+      'validation_key': HEADERS.validation_key
+    },
+    body: formData
+  });
+}
