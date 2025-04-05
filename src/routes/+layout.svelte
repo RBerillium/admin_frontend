@@ -7,6 +7,8 @@
   
   <a href="/apps">📦 Приложения</a>
   <a href="/keys">🔑 Ключи</a>
+  <a href="/files">📁 Файлы </a>
+
 </nav>
 
 <slot />

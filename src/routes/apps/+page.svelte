@@ -30,14 +30,24 @@
 
   onMount(refresh);
 
-  async function handlePause(app) {
-    await pauseApp(app.name);
-    await refresh();
-  }
+  async function togglePause(app) {
+    const isPaused = app.paused_at && parseInt(app.paused_at) > 0;
 
-  async function handleUnpause(app) {
-    await unpauseApp(app.name);
-    await refresh();
+    if (isPaused) {
+      const res = await unpauseApp(app.name);
+      if (res.ok) {
+        const text = await res.text();
+        const seconds = parseInt(text.match(/\d+/)?.[0] || '0');
+        const days = Math.floor(seconds / 86400);
+        alert(`Ключи продлены на ${days} ${days === 1 ? 'день' : days < 5 ? 'дня' : 'дней'}`);
+      }
+      app.paused_at = 0;
+    } else {
+      await pauseApp(app.name);
+      app.paused_at = Math.floor(Date.now() / 1000);
+    }
+
+    apps = [...apps]; // 🔁 обновляем массив для реактивности
   }
 
   async function handleDeleteConfirmed() {
@@ -75,16 +85,14 @@
     />
     <div class="mt-4 flex justify-end gap-2">
       <button
-      class="px-3 py-1 bg-blue-600 text-white rounded"
-      on:click={handleCreateApp}
-    >
-      Создать
-    </button>
-    
+        class="px-3 py-1 bg-blue-600 text-white rounded"
+        on:click={handleCreateApp}
+      >
+        Создать
+      </button>
       <button class="px-3 py-1 bg-gray-300 rounded" on:click={() => { showCreateModal = false; newAppName = ''; }}>
         Отмена
       </button>
-
     </div>
   </div>
 {/if}
@@ -150,9 +158,9 @@
         <td>
           <button
             class="status-button"
-            on:click={() => app.paused ? handleUnpause(app) : handlePause(app)}
+            on:click={() => togglePause(app)}
           >
-            {app.paused ? '▶ Снять' : '⏸ Пауза'}
+            {(app.paused_at && parseInt(app.paused_at) > 0) ? '▶ Снять' : '⏸ Пауза'}
           </button>
         </td>
         <td>
