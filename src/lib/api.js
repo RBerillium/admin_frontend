@@ -1,10 +1,14 @@
-const API_BASE = 'http://localhost:18080/api'; // или другой твой порт
+const API_BASE = 'https://moonshinesolutions.ru/api';  // или другой твой порт
 
 const HEADERS = {
   'Content-Type': 'application/json',
-  'validation_key': '0xdeadbeefdeadbeef' // замени на актуальный
+  'validation_key': 'f608eee9bbc4790a236f4ecc78ef4c071bc3ad5bc9934bce9ed6b743efd4dca2' // замени на актуальный
 };
 
+const PUBLIC_HEADERS = {
+  'Content-Type': 'application/json',
+  'pathology': '7b3a631702b3316d45d44c4b818a061516c1914a71526e2eaba669e870fa61c6' // замени на актуальный
+};
 // --- Приложения ---
 
 export async function getAllApps() {
@@ -76,7 +80,7 @@ export async function resetHWID(key) {
 export async function validateKey({ key, application_name, hardware_id_hash }) {
   return await fetch(`${API_BASE}/validate_key`, {
     method: 'POST',
-    headers: HEADERS,
+    headers: PUBLIC_HEADERS,
     body: JSON.stringify({ key, application_name, hardware_id_hash })
   }).then(res => res.json());
 }
@@ -120,7 +124,7 @@ export async function uploadFile({ application_name, file }) {
   return await fetch(`${API_BASE}/upload_file`, {
     method: 'POST',
     headers: {
-      'validation_key': HEADERS.validation_key // Не указываем Content-Type вручную!
+        'validation_key': HEADERS['validation_key']
     },
     body: formData
   });

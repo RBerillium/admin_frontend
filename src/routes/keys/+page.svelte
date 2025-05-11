@@ -1,3 +1,7 @@
+<script context="module">
+  export const ssr = false;
+</script>
+
 <script>
   import { onMount } from 'svelte';
   import {
@@ -63,6 +67,7 @@
     async resetHWID(k) {
       await resetHWID(k);
       await loadKeys();
+      alert('HWID ключа был сброшен!');
     },
     async delete(k) {
       await deleteKey(k);
@@ -88,6 +93,13 @@
       });
   }
 
+  function formatUnixTimestamp(unixTimestamp) {
+  if (!unixTimestamp) return "";
+  const date = new Date(unixTimestamp * 1000);
+  return date.toLocaleString();
+}
+
+
   $: filteredKeys = keys.filter(k => k.key_serial.toLowerCase().includes(searchQuery.toLowerCase()));
   $: totalPages = Math.ceil(filteredKeys.length / perPage);
   $: paginatedKeys = filteredKeys.slice((currentPage - 1) * perPage, currentPage * perPage);
@@ -109,7 +121,7 @@
   <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
     <div class="flex gap-2 flex-wrap">
       <button on:click={() => showGenerateDropdown = !showGenerateDropdown}>➕ Сгенерировать</button>
-      <button on:click={async () => { await deleteExpiredKeys(); await loadKeys(); }}>🗑️ Удалить истёкшие</button>
+      <button on:click={async () => { await deleteExpiredKeys(); await loadKeys(); alert('Истёкшие ключи были удалены!🗑️') }}>🗑️ Удалить истёкшие</button>
     </div>
   </div>
 
@@ -168,7 +180,7 @@
         {#each paginatedKeys as key}
           <tr class="hover:bg-gray-700">
             <td class="p-2 border-b border-gray-700 break-all">{key.key_serial}</td>
-            <td class="p-2 border-b border-gray-700">{key.expire_date || '—'}</td>
+            <td class="p-2 border-b border-gray-700">{formatUnixTimestamp(key.expire_date) || '—'}</td>
             <td class="p-2 border-b border-gray-700">{key.note}</td>
             <td class="p-2 border-b border-gray-700">{key.banned === 't' ? 'Да' : 'Нет'}</td>
             <td class="p-2 border-b border-gray-700 relative">
