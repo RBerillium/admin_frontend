@@ -2,12 +2,12 @@ const API_BASE = 'https://moonshinesolutions.ru/api';  // или другой т
 
 const HEADERS = {
   'Content-Type': 'application/json',
-  'validation_key': 'f608eee9bbc4790a236f4ecc78ef4c071bc3ad5bc9934bce9ed6b743efd4dca2' // замени на актуальный
+  'validation_key': 'eb4e108690c0342e131050866bf68fa17d8b484eb7dfdc0be7fe1e820efee52a' // замени на актуальный
 };
 
 const PUBLIC_HEADERS = {
   'Content-Type': 'application/json',
-  'pathology': '7b3a631702b3316d45d44c4b818a061516c1914a71526e2eaba669e870fa61c6' // замени на актуальный
+  'pathology': '624a1831398676bc9c1affed3c309911ce6386f7fd9ca2420833a22d171cab9d' // замени на актуальный
 };
 // --- Приложения ---
 
@@ -19,7 +19,7 @@ export async function getAllApps() {
   return await res.json();
 }
 
-export async function createApp(application_name) {
+export async function createApp(application_name) {	
   return await fetch(`${API_BASE}/create_application`, {
     method: 'POST',
     headers: HEADERS,
@@ -103,7 +103,7 @@ export async function deleteExpiredKeys() {
 export async function banKey(key) {
   return await fetch(`${API_BASE}/ban_key`, {
     method: 'POST',
-    headers: HEADERS,
+    headers: PUBLIC_HEADERS,
     body: JSON.stringify({ key })
   });
 }
